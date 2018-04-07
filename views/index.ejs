@@ -1,19 +1,22 @@
 <% include ./partials/header %>
 <div class="container">    
+    
     <header>
-        <h1>Reciepe DashBoard</h1>
+        <h1>Your Reciepes !!</h1>
         <hr>
         <br>
-        <a class="btn btn-primary" href="/reciepes/new">Add New Reciepe</a>
+        <a class="btn btn-primary" href="/reciepes/new"><i class="glyphicon glyphicon-plus"></i> Add New Reciepe</a>
     </header>
 
-    <div class="row text-center">
+    <br>
+
+    <div class="row text-center" style="display:flex; flex-wrap: wrap;">
         <% reciepes.forEach(function(reciepe){ %>    
             <div class="col-md-3 col-sm-6">
                 <div class="thumbnail">
                     <img src="/uploads/<%= reciepe.image %>" alt="">
                     <div class="caption">
-                        <h4><a href="/reciepes/<%= reciepe._id %>"><%= reciepe.title %></a></h4>
+                        <h4><a class="btn btn-default" href="/reciepes/<%= reciepe._id %>"><i class="glyphicon glyphicon-circle-arrow-right"></i> <%= reciepe.title %></a></h4>
                     </div>
                 </div>
             </div>

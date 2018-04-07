@@ -1,15 +1,27 @@
 <% include ./partials/header %>
 
-    <form action="/reciepes" method="POST" enctype='multipart/form-data'>
-        Title:
-        <input type="text" name="title" placeholder="title">
-        <br>
-        Desc:
-        <textarea name="description" cols="25" rows="5" placeholder="desc"></textarea>
-        <br>
-        Image:
-        <input type="file" name="image">
-        <button type="submit">Submit</button>
-    </form>
+    <div class="container">
+        <div class="row">
+            <h1 class="text-center">Add a New Reciepe</h1>
+            <hr>
+            <div style="width: 37%; margin: 0 auto;">
+                <form action="/reciepes" method="POST" enctype='multipart/form-data'>
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input type="text" class="form-control" name="title" placeholder="title">
+                    </div>
+                    <div class="form-group">
+                        <label>Description:</label>
+                        <textarea class="form-control" name="description" cols="25" rows="8" placeholder="description..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Image:</label>
+                        <input class="form-control" type="file" name="image">
+                    </div>
+                    <button class="btn btn-lg btn-block btn-primary" type="submit">Submit <i class="glyphicon glyphicon-saved"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
 
 <% include ./partials/footer %>
