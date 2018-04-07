@@ -5,3 +5,11 @@
 .thumbnail{
     padding: 0;
 }
+
+.thumbnail .caption-full {
+    padding: 9px;
+}
+
+.show-height{
+    max-height: 400px;
+}

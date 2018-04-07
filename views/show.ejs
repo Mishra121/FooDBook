@@ -1,0 +1,25 @@
+<% include ./partials/header %>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="thumbnail">
+                    <img class="img-responsive show-height" src="/uploads/<%= reciepe.image %>">
+                    <div class="caption-full">
+                        <h4><%= reciepe.title %></h4>
+                        <p><%= reciepe.description %></p>
+                        <br>
+                        <a class="btn btn-success" href="#">Edit</a>
+                        <a class="btn btn-danger" href="#">Delete</a>
+                    </div>
+                </div>
+                <div class="well">
+                    <h4>Ingredients</h4>
+                    <a class="btn btn-default" href="#">Add/Remove</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<% include ./partials/footer %>
