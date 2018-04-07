@@ -9,8 +9,9 @@ var methodOverride = require("method-override");
 var app = express();
 
 mongoose.connect("mongodb://localhost/reciepedb");
-app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
+app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 
@@ -110,7 +111,26 @@ app.get("/reciepes/:id/edit", function(req, res){
     });
 });
 
+// Update Reciepe
+app.put("/reciepes/:id", function(req, res){
+    upload(req, res, (err) => {
+        if(err){
+            console.log('Error in updating..');
+        }else{
+            var title = req.body.title;
+            var description = req.body.description;  
 
+            var newReciepe = {title: title, description: description};
+            Reciepe.findByIdAndUpdate(req.params.id, newReciepe, function(err, updatedReciepe){
+                if(err){
+                    res.redirect("/reciepes");
+                }else{
+                    res.redirect('/reciepes/'+ req.params.id);
+                }
+            });
+        }
+    });
+});
 
 //==================================
 var port = process.env.PORT || 3000;
