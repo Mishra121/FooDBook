@@ -11,7 +11,9 @@
                         <p><%= reciepe.description %></p>
                         <br>
                         <a class="btn btn-success" href="/reciepes/<%= reciepe._id %>/edit"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-                        <a class="btn btn-danger" href="#"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+                        <form id="delete" action="/reciepes/<%= reciepe._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i> Delete</button>
+                        </form>
                     </div>
                 </div>
                 <div class="well">

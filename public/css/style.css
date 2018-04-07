@@ -14,3 +14,7 @@
 .show-height{
     max-height: 400px;
 }
+
+#delete{
+    display: inline;
+}

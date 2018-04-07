@@ -132,6 +132,17 @@ app.put("/reciepes/:id", function(req, res){
     });
 });
 
+//DELETE RECIEPE
+app.delete("/reciepes/:id", function(req, res){
+    Reciepe.findByIdAndRemove(req.params.id, function(err){
+        if(err){
+            res.redirect('/reciepes');
+        }else{
+            res.redirect('/reciepes');
+        }
+    });
+});
+
 //==================================
 var port = process.env.PORT || 3000;
 app.listen(port, function(){
