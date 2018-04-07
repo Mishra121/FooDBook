@@ -29,19 +29,11 @@ const upload = multer({
     limits: {fileSize: 1000000}
 }).single('image');
 
-
-// Recipe Schema
-var recipeSchema = new mongoose.Schema({
-    title: String,
-    description: String,
-    image: String
-});
-
-var Recipe = mongoose.model("Recipe", recipeSchema);
-
+var Recipe = require('./models/recipe');
+var Ingredient = require('./models/ingredient');
 
 //==========
-//ROUTES
+//ROUTES(RECIPE)
 //==========
 
 app.get("/", function(req, res){
