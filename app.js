@@ -30,14 +30,14 @@ const upload = multer({
 }).single('image');
 
 
-// Reciepe Schema
-var reciepeSchema = new mongoose.Schema({
+// Recipe Schema
+var recipeSchema = new mongoose.Schema({
     title: String,
     description: String,
     image: String
 });
 
-var Reciepe = mongoose.model("Reciepe", reciepeSchema);
+var Recipe = mongoose.model("Recipe", recipeSchema);
 
 
 //==========
@@ -49,23 +49,23 @@ app.get("/", function(req, res){
 });
 
 //INDEX
-app.get("/reciepes", function(req, res){
-    Reciepe.find({}, function(err, allReciepes){
+app.get("/recipes", function(req, res){
+    Recipe.find({}, function(err, allRecipes){
         if(err){
             console.log(err);
         }else{
-            res.render("index",{reciepes: allReciepes});
+            res.render("index",{recipes: allRecipes});
         }
     })
 });
 
-//NEW Reciepe
-app.get("/reciepes/new", function(req, res){
+//NEW Recipe
+app.get("/recipes/new", function(req, res){
     res.render("new");
 });
 
-// Add Reciepe
-app.post("/reciepes", function(req, res){
+// Add Recipe
+app.post("/recipes", function(req, res){
     upload(req, res, (err) => {
         if(err){
             console.log('image not uploaded');
@@ -74,45 +74,45 @@ app.post("/reciepes", function(req, res){
             var description = req.body.description;  
             var image = req.file.filename;
 
-            var newReciepe = {title: title, description: description, image: image};
-            Reciepe.create(newReciepe, function(err, newlyCreated){
+            var newRecipe = {title: title, description: description, image: image};
+            Recipe.create(newRecipe, function(err, newlyCreated){
                 if(err){
                     console.log(err);
                 }else{
-                    res.redirect('/reciepes');
+                    res.redirect('/recipes');
                 }
             });
         }
     });
 });
 
-//Show a specific reciepe
-app.get("/reciepes/:id", function(req, res){
+//Show a specific recipe
+app.get("/recipes/:id", function(req, res){
     var id = req.params.id;
-    Reciepe.findById(id, function(err, foundReciepe){
+    Recipe.findById(id, function(err, foundRecipe){
         if(err){
             console.log(err);
-            res.redirect('/reciepes');
+            res.redirect('/recipes');
         }
         else{
-            res.render("show", {reciepe: foundReciepe});
+            res.render("show", {recipe: foundRecipe});
         }
     });
 });
 
-//Edit form for the particular reciepe
-app.get("/reciepes/:id/edit", function(req, res){
-    Reciepe.findById(req.params.id, function(err, foundReciepe){
+//Edit form for the particular recipe
+app.get("/recipes/:id/edit", function(req, res){
+    Recipe.findById(req.params.id, function(err, foundRecipe){
         if(err){
-            res.redirect("/reciepes");
+            res.redirect("/recipes");
         }else{
-            res.render("edit", {reciepe: foundReciepe});
+            res.render("edit", {recipe: foundRecipe});
         }
     });
 });
 
-// Update Reciepe
-app.put("/reciepes/:id", function(req, res){
+// Update Recipe
+app.put("/recipes/:id", function(req, res){
     upload(req, res, (err) => {
         if(err){
             console.log('Error in updating..');
@@ -120,25 +120,25 @@ app.put("/reciepes/:id", function(req, res){
             var title = req.body.title;
             var description = req.body.description;  
 
-            var newReciepe = {title: title, description: description};
-            Reciepe.findByIdAndUpdate(req.params.id, newReciepe, function(err, updatedReciepe){
+            var newRecipe = {title: title, description: description};
+            Recipe.findByIdAndUpdate(req.params.id, newRecipe, function(err, updatedRecipe){
                 if(err){
-                    res.redirect("/reciepes");
+                    res.redirect("/recipes");
                 }else{
-                    res.redirect('/reciepes/'+ req.params.id);
+                    res.redirect('/recipes/'+ req.params.id);
                 }
             });
         }
     });
 });
 
-//DELETE RECIEPE
-app.delete("/reciepes/:id", function(req, res){
-    Reciepe.findByIdAndRemove(req.params.id, function(err){
+//DELETE RECIPE
+app.delete("/recipes/:id", function(req, res){
+    Recipe.findByIdAndRemove(req.params.id, function(err){
         if(err){
-            res.redirect('/reciepes');
+            res.redirect('/recipes');
         }else{
-            res.redirect('/reciepes');
+            res.redirect('/recipes');
         }
     });
 });

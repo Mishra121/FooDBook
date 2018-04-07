@@ -5,13 +5,13 @@
             </div>
             <div class="col-md-6">
                 <div class="thumbnail">
-                    <img class="img-responsive show-height" src="/uploads/<%= reciepe.image %>">
+                    <img class="img-responsive show-height" src="/uploads/<%= recipe.image %>">
                     <div class="caption-full">
-                        <h4><%= reciepe.title %></h4>
-                        <p><%= reciepe.description %></p>
+                        <h4><%= recipe.title %></h4>
+                        <p><%= recipe.description %></p>
                         <br>
-                        <a class="btn btn-success" href="/reciepes/<%= reciepe._id %>/edit"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-                        <form id="delete" action="/reciepes/<%= reciepe._id %>?_method=DELETE" method="POST">
+                        <a class="btn btn-success" href="/recipes/<%= recipe._id %>/edit"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                        <form id="delete" action="/recipes/<%= recipe._id %>?_method=DELETE" method="POST">
                             <button class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i> Delete</button>
                         </form>
                     </div>
@@ -22,7 +22,7 @@
                 </div>
                 <div>
                         <hr>
-                        <a class="btn btn-default" href="/reciepes"><i class="glyphicon glyphicon-chevron-left"></i> Go Back</a>
+                        <a class="btn btn-default" href="/recipes"><i class="glyphicon glyphicon-chevron-left"></i> Go Back</a>
                 </div>
             </div>
         </div>

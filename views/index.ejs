@@ -2,21 +2,21 @@
 <div class="container">    
     
     <header>
-        <h1>Your Reciepes !!</h1>
+        <h1>Your Recipes !!</h1>
         <hr>
         <br>
-        <a class="btn btn-primary" href="/reciepes/new"><i class="glyphicon glyphicon-plus"></i> Add New Reciepe</a>
+        <a class="btn btn-primary" href="/recipes/new"><i class="glyphicon glyphicon-plus"></i> Add New Recipe</a>
     </header>
 
     <br>
 
     <div class="row text-center" style="display:flex; flex-wrap: wrap;">
-        <% reciepes.forEach(function(reciepe){ %>    
+        <% recipes.forEach(function(recipe){ %>    
             <div class="col-md-3 col-sm-6">
                 <div class="thumbnail">
-                    <img src="/uploads/<%= reciepe.image %>" alt="">
+                    <img src="/uploads/<%= recipe.image %>" alt="">
                     <div class="caption">
-                        <h4><a class="btn btn-default" href="/reciepes/<%= reciepe._id %>"><i class="glyphicon glyphicon-circle-arrow-right"></i> <%= reciepe.title %></a></h4>
+                        <h4><a class="btn btn-default" href="/recipes/<%= recipe._id %>"><i class="glyphicon glyphicon-circle-arrow-right"></i> <%= recipe.title %></a></h4>
                     </div>
                 </div>
             </div>
