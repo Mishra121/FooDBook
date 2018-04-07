@@ -54,6 +54,28 @@ app.get("/reciepes/new", function(req, res){
     res.render("new");
 });
 
+// Add Reciepe
+app.post("/reciepes", function(req, res){
+    upload(req, res, (err) => {
+        if(err){
+            console.log('image not uploaded');
+        }else{
+            var title = req.body.title;
+            var description = req.body.description;  
+            var image = req.file.filename;
+
+            var newReciepe = {title: title, description: description, image: image};
+            Reciepe.create(newReciepe, function(err, newlyCreated){
+                if(err){
+                    console.log(err);
+                }else{
+                    res.redirect('/reciepes');
+                }
+            });
+        }
+    });
+});
+
 
 //==================================
 var port = process.env.PORT || 3000;
