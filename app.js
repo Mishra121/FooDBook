@@ -10,6 +10,7 @@ var app = express();
 mongoose.connect("mongodb://localhost/reciepedb");
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(express.static(__dirname + "/public"));
 
 
 //Multer Initialization
@@ -46,7 +47,13 @@ app.get("/", function(req, res){
 
 //INDEX
 app.get("/reciepes", function(req, res){
-    res.render("index");
+    Reciepe.find({}, function(err, allReciepes){
+        if(err){
+            console.log(err);
+        }else{
+            res.render("index",{reciepes: allReciepes});
+        }
+    })
 });
 
 //NEW Reciepe
