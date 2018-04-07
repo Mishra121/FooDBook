@@ -83,6 +83,20 @@ app.post("/reciepes", function(req, res){
     });
 });
 
+//Show a specific reciepe
+app.get("/reciepes/:id", function(req, res){
+    var id = req.params.id;
+    Reciepe.findById(id, function(err, foundReciepe){
+        if(err){
+            console.log(err);
+            res.redirect('/reciepes');
+        }
+        else{
+            res.render("show", {reciepe: foundReciepe});
+        }
+    });
+});
+
 
 //==================================
 var port = process.env.PORT || 3000;
