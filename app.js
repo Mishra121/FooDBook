@@ -135,6 +135,41 @@ app.delete("/recipes/:id", function(req, res){
     });
 });
 
+//==========
+//ROUTES(INGREDIENT)
+//==========
+
+// Form for adding ingredient
+app.get("/recipes/:id/ingredients/new", function(req, res){
+    Recipe.findById(req.params.id, function(err, recipe){
+        if(err){
+            console.log(err);
+        }else{
+            res.render("ingnew", {recipe: recipe});
+        }
+    });
+});
+
+// Adding Ingredients
+app.post("/campgrounds/:id/ingredients", function(req, res){
+    Recipe.findById(req.params.id, function(err, recipe){
+        if(err){
+            console.log(err);
+            res.redirect("/recipes");
+        }else{
+            Ingredient.create(req.body.ingredients, function(err, ingredients){
+                if(err){
+                    console.log(err);
+                }else{
+                    recipe.ingredients.push(ingredients);
+                    recipe.save();
+                    res.redirect('/recipes/'+ recipe._id);
+                }
+            });
+        }
+    });
+});
+
 //==================================
 var port = process.env.PORT || 3000;
 app.listen(port, function(){
