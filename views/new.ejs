@@ -1,0 +1,15 @@
+<% include ./partials/header %>
+
+    <form action="/reciepes" method="POST">
+        Title:
+        <input type="text" name="title" placeholder="title">
+        <br>
+        Desc:
+        <textarea name="description" cols="25" rows="5" placeholder="desc"></textarea>
+        <br>
+        Image:
+        <input type="file" name="image">
+        <button type="submit">Submit</button>
+    </form>
+
+<% include ./partials/footer %>
