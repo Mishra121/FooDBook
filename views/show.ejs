@@ -1,8 +1,8 @@
 <% include ./partials/header %>
-
     <div class="container">
         <div class="row">
-            <div class="col-md-3"></div>
+            <div class="col-md-3">
+            </div>
             <div class="col-md-6">
                 <div class="thumbnail">
                     <img class="img-responsive show-height" src="/uploads/<%= reciepe.image %>">
@@ -10,13 +10,17 @@
                         <h4><%= reciepe.title %></h4>
                         <p><%= reciepe.description %></p>
                         <br>
-                        <a class="btn btn-success" href="#">Edit</a>
-                        <a class="btn btn-danger" href="#">Delete</a>
+                        <a class="btn btn-success" href="/reciepes/<%= reciepe._id %>/edit"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                        <a class="btn btn-danger" href="#"><i class="glyphicon glyphicon-trash"></i> Delete</a>
                     </div>
                 </div>
                 <div class="well">
                     <h4>Ingredients</h4>
                     <a class="btn btn-default" href="#">Add/Remove</a>
+                </div>
+                <div>
+                        <hr>
+                        <a class="btn btn-default" href="/reciepes"><i class="glyphicon glyphicon-chevron-left"></i> Go Back</a>
                 </div>
             </div>
         </div>

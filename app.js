@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var multer = require('multer');
 var path = require('path');
+var methodOverride = require("method-override");
 
 var app = express();
 
@@ -11,6 +12,7 @@ mongoose.connect("mongodb://localhost/reciepedb");
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static(__dirname + "/public"));
+app.use(methodOverride("_method"));
 
 
 //Multer Initialization
@@ -96,6 +98,18 @@ app.get("/reciepes/:id", function(req, res){
         }
     });
 });
+
+//Edit form for the particular reciepe
+app.get("/reciepes/:id/edit", function(req, res){
+    Reciepe.findById(req.params.id, function(err, foundReciepe){
+        if(err){
+            res.redirect("/reciepes");
+        }else{
+            res.render("edit", {reciepe: foundReciepe});
+        }
+    });
+});
+
 
 
 //==================================
