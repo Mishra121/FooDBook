@@ -2,6 +2,8 @@ var express = require('express');
 var ejs = require('ejs');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var passport = require("passport");
+var LocalStrategy = require("passport-local");
 var multer = require('multer');
 var path = require('path');
 var methodOverride = require("method-override");
@@ -15,6 +17,27 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 
+//========================
+//   Passport Config
+//========================
+
+app.use(require("express-session")({
+    secret: "FooDBooK",
+    resave: false,
+    saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+// Middleware formed to pass user on all the routes
+app.use(function(req, res, next){
+    res.locals.currentUser = req.user;
+    next();
+});
 
 //Multer Initialization
 const storage = multer.diskStorage({
