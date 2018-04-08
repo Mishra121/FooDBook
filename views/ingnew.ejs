@@ -3,9 +3,9 @@
     
     <div class="container text-center" style="margin:0 auto; max-width:330px;">
         <h4>Add Ingredients for <%= recipe.title %></h4>
-        <form action="/campgrounds/<%= recipe._id %>/ingredients" method="POST">
+        <form action="/recipes/<%= recipe._id %>/ingredients" method="POST">
             <div id="addmore" class="form-group">
-                <input type="text" name="ingredients[text]" class="form-control">
+                <input type="text" name="text" class="form-control">
                 <br>
             </div>
             <div class="form-group">
@@ -22,7 +22,7 @@
         function addmore(){
             var newinput = document.createElement("INPUT");
             newinput.setAttribute("type", "text");
-            newinput.setAttribute("name", "ingredients[text]");
+            newinput.setAttribute("name", "text");
             newinput.setAttribute("class", "form-control");
             var parent = document.getElementById("addmore");
             parent.appendChild(newinput);

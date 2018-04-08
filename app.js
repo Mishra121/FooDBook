@@ -29,8 +29,9 @@ const upload = multer({
     limits: {fileSize: 1000000}
 }).single('image');
 
+var ingredientSchema = require('./models/ingredient');
 var Recipe = require('./models/recipe');
-var Ingredient = require('./models/ingredient');
+
 
 //==========
 //ROUTES(RECIPE)
@@ -151,21 +152,27 @@ app.get("/recipes/:id/ingredients/new", function(req, res){
 });
 
 // Adding Ingredients
-app.post("/campgrounds/:id/ingredients", function(req, res){
+app.post("/recipes/:id/ingredients", function(req, res){
     Recipe.findById(req.params.id, function(err, recipe){
         if(err){
             console.log(err);
             res.redirect("/recipes");
         }else{
-            Ingredient.create(req.body.ingredients, function(err, ingredients){
-                if(err){
-                    console.log(err);
-                }else{
-                    recipe.ingredients.push(ingredients);
-                    recipe.save();
-                    res.redirect('/recipes/'+ recipe._id);
-                }
-            });
+            var newingredients = req.body.text;
+            //console.log(newingredients);
+            recipe.ingredients.push({text: newingredients});
+            recipe.save();
+            //console.log("success");
+            
+            //console.log(recipe.ingredients);
+            // recipe.ingredients.forEach(function(item){
+            //     var newArr = item.text.split(',');
+            //     newArr.forEach(function(item){
+            //         console.log(item);
+            //     });
+            // });
+            res.redirect('/recipes');
+            //res.redirect('/recipes/'+ recipe._id);
         }
     });
 });

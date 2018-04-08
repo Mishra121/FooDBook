@@ -19,6 +19,20 @@
                 <div class="well">
                     <h4>Ingredients</h4>
                     <a class="btn btn-default" href="/recipes/<%= recipe._id %>/ingredients/new"><i class="glyphicon glyphicon-plus"></i> Add</a>
+                    <hr>
+                    <% recipe.ingredients.forEach(function(item){ %>
+                    <%    var newArr = item.text.split(',');      %> 
+                    <%    newArr.forEach(function(item){          %>                
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>
+                                        <i class="glyphicon glyphicon-minus"></i>
+                                        <%= item %>
+                                    </p>
+                                </div>
+                            </div>
+                    <%    }); %>
+                    <%  }); %>
                 </div>
                 <div>
                         <hr>
