@@ -191,6 +191,17 @@ app.post("/recipes/:id/ingredients", function(req, res){
     });
 });
 
+
+//================
+//    AUTH
+//================
+
+//show registration form
+router.get("/register", function(req, res){
+    res.render('register');
+});
+
+
 //==================================
 var port = process.env.PORT || 3000;
 app.listen(port, function(){
