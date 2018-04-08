@@ -162,17 +162,8 @@ app.post("/recipes/:id/ingredients", function(req, res){
             //console.log(newingredients);
             recipe.ingredients.push({text: newingredients});
             recipe.save();
-            //console.log("success");
-            
-            //console.log(recipe.ingredients);
-            // recipe.ingredients.forEach(function(item){
-            //     var newArr = item.text.split(',');
-            //     newArr.forEach(function(item){
-            //         console.log(item);
-            //     });
-            // });
-            res.redirect('/recipes');
-            //res.redirect('/recipes/'+ recipe._id);
+           
+            res.redirect('/recipes/'+ recipe._id);
         }
     });
 });
