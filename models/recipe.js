@@ -5,7 +5,14 @@ var recipeSchema = new mongoose.Schema({
     title: String,
     description: String,
     image: String,
-    ingredients: [ingredientSchema]
+    ingredients: [ingredientSchema],
+    user: {
+        id:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+        username: String
+    }
 });
 
 module.exports = mongoose.model("Recipe", recipeSchema);
