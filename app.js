@@ -17,6 +17,10 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 
+var ingredientSchema = require('./models/ingredient');
+var Recipe = require('./models/recipe');
+var User = require('./models/user');
+
 //========================
 //   Passport Config
 //========================
@@ -51,9 +55,6 @@ const upload = multer({
     storage: storage,
     limits: {fileSize: 1000000}
 }).single('image');
-
-var ingredientSchema = require('./models/ingredient');
-var Recipe = require('./models/recipe');
 
 
 //==========
@@ -197,8 +198,41 @@ app.post("/recipes/:id/ingredients", function(req, res){
 //================
 
 //show registration form
-router.get("/register", function(req, res){
+app.get("/register", function(req, res){
     res.render('register');
+});
+
+//handle signup logic
+app.post("/register", function(req, res){
+    var newUser = { username: req.body.username};
+    console.log(newUser);
+    User.register(new User(newUser), req.body.password, function(err, user){
+        if(err){
+            console.log(err);
+            return res.render("register");
+        }
+        passport.authenticate("local")(req, res, function(){
+            res.redirect("/recipes");
+        });
+    })
+});
+
+// show login form
+app.get("/login", function(req, res){
+    res.render('login');
+});
+
+//login route
+app.post("/login", passport.authenticate("local", {
+    successRedirect: "/recipes",
+    failureRedirect: "/login"
+}), function(req, res){
+});
+
+// logout route
+app.get("/logout", function(req, res){
+    req.logout();
+    res.redirect('/');
 });
 
 
