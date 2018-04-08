@@ -66,7 +66,7 @@ app.get("/", function(req, res){
 });
 
 //INDEX
-app.get("/recipes", function(req, res){
+app.get("/recipes", isLoggedIn, function(req, res){
     Recipe.find({}, function(err, allRecipes){
         if(err){
             console.log(err);
@@ -77,12 +77,12 @@ app.get("/recipes", function(req, res){
 });
 
 //NEW Recipe
-app.get("/recipes/new", function(req, res){
+app.get("/recipes/new", isLoggedIn, function(req, res){
     res.render("new");
 });
 
 // Add Recipe
-app.post("/recipes", function(req, res){
+app.post("/recipes", isLoggedIn, function(req, res){
     upload(req, res, (err) => {
         if(err){
             console.log('image not uploaded');
@@ -104,7 +104,7 @@ app.post("/recipes", function(req, res){
 });
 
 //Show a specific recipe
-app.get("/recipes/:id", function(req, res){
+app.get("/recipes/:id", isLoggedIn, function(req, res){
     var id = req.params.id;
     Recipe.findById(id, function(err, foundRecipe){
         if(err){
@@ -118,7 +118,7 @@ app.get("/recipes/:id", function(req, res){
 });
 
 //Edit form for the particular recipe
-app.get("/recipes/:id/edit", function(req, res){
+app.get("/recipes/:id/edit", isLoggedIn, function(req, res){
     Recipe.findById(req.params.id, function(err, foundRecipe){
         if(err){
             res.redirect("/recipes");
@@ -129,7 +129,7 @@ app.get("/recipes/:id/edit", function(req, res){
 });
 
 // Update Recipe
-app.put("/recipes/:id", function(req, res){
+app.put("/recipes/:id", isLoggedIn, function(req, res){
     upload(req, res, (err) => {
         if(err){
             console.log('Error in updating..');
@@ -150,7 +150,7 @@ app.put("/recipes/:id", function(req, res){
 });
 
 //DELETE RECIPE
-app.delete("/recipes/:id", function(req, res){
+app.delete("/recipes/:id", isLoggedIn, function(req, res){
     Recipe.findByIdAndRemove(req.params.id, function(err){
         if(err){
             res.redirect('/recipes');
@@ -165,7 +165,7 @@ app.delete("/recipes/:id", function(req, res){
 //==========
 
 // Form for adding ingredient
-app.get("/recipes/:id/ingredients/new", function(req, res){
+app.get("/recipes/:id/ingredients/new", isLoggedIn, function(req, res){
     Recipe.findById(req.params.id, function(err, recipe){
         if(err){
             console.log(err);
@@ -176,7 +176,7 @@ app.get("/recipes/:id/ingredients/new", function(req, res){
 });
 
 // Adding Ingredients
-app.post("/recipes/:id/ingredients", function(req, res){
+app.post("/recipes/:id/ingredients", isLoggedIn, function(req, res){
     Recipe.findById(req.params.id, function(err, recipe){
         if(err){
             console.log(err);
@@ -235,6 +235,13 @@ app.get("/logout", function(req, res){
     res.redirect('/');
 });
 
+// Authorization middleware
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
 
 //==================================
 var port = process.env.PORT || 3000;
