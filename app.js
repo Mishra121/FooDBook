@@ -57,16 +57,16 @@ const upload = multer({
 }).single('image');
 
 
-//==========
+//==============
 //ROUTES(RECIPE)
-//==========
+//==============
 
 app.get("/", function(req, res){
     res.render("landing");
 });
 
 //INDEX
-app.get("/recipes", isLoggedIn, function(req, res){
+app.get("/recipes",isLoggedIn ,function(req, res){
     Recipe.find({}, function(err, allRecipes){
         if(err){
             console.log(err);
@@ -77,7 +77,7 @@ app.get("/recipes", isLoggedIn, function(req, res){
 });
 
 //NEW Recipe
-app.get("/recipes/new", isLoggedIn, function(req, res){
+app.get("/recipes/new",isLoggedIn ,function(req, res){
     res.render("new");
 });
 
@@ -92,10 +92,14 @@ app.post("/recipes", isLoggedIn, function(req, res){
             var image = req.file.filename;
 
             var newRecipe = {title: title, description: description, image: image};
-            Recipe.create(newRecipe, function(err, newlyCreated){
+            Recipe.create(newRecipe ,function(err, newlyCreated){
                 if(err){
                     console.log(err);
                 }else{
+                    // Adding User ID to respective recipe
+                    var userid = req.user._id;
+                    newlyCreated.user.id = userid;
+                    newlyCreated.save();
                     res.redirect('/recipes');
                 }
             });
@@ -104,7 +108,7 @@ app.post("/recipes", isLoggedIn, function(req, res){
 });
 
 //Show a specific recipe
-app.get("/recipes/:id", isLoggedIn, function(req, res){
+app.get("/recipes/:id" , checkRecipeOwnership,function(req, res){
     var id = req.params.id;
     Recipe.findById(id, function(err, foundRecipe){
         if(err){
@@ -118,7 +122,7 @@ app.get("/recipes/:id", isLoggedIn, function(req, res){
 });
 
 //Edit form for the particular recipe
-app.get("/recipes/:id/edit", isLoggedIn, function(req, res){
+app.get("/recipes/:id/edit", checkRecipeOwnership, function(req, res){
     Recipe.findById(req.params.id, function(err, foundRecipe){
         if(err){
             res.redirect("/recipes");
@@ -129,7 +133,7 @@ app.get("/recipes/:id/edit", isLoggedIn, function(req, res){
 });
 
 // Update Recipe
-app.put("/recipes/:id", isLoggedIn, function(req, res){
+app.put("/recipes/:id", checkRecipeOwnership, function(req, res){
     upload(req, res, (err) => {
         if(err){
             console.log('Error in updating..');
@@ -150,7 +154,7 @@ app.put("/recipes/:id", isLoggedIn, function(req, res){
 });
 
 //DELETE RECIPE
-app.delete("/recipes/:id", isLoggedIn, function(req, res){
+app.delete("/recipes/:id", checkRecipeOwnership, function(req, res){
     Recipe.findByIdAndRemove(req.params.id, function(err){
         if(err){
             res.redirect('/recipes');
@@ -165,7 +169,7 @@ app.delete("/recipes/:id", isLoggedIn, function(req, res){
 //==========
 
 // Form for adding ingredient
-app.get("/recipes/:id/ingredients/new", isLoggedIn, function(req, res){
+app.get("/recipes/:id/ingredients/new", checkRecipeOwnership, function(req, res){
     Recipe.findById(req.params.id, function(err, recipe){
         if(err){
             console.log(err);
@@ -176,7 +180,7 @@ app.get("/recipes/:id/ingredients/new", isLoggedIn, function(req, res){
 });
 
 // Adding Ingredients
-app.post("/recipes/:id/ingredients", isLoggedIn, function(req, res){
+app.post("/recipes/:id/ingredients", function(req, res){
     Recipe.findById(req.params.id, function(err, recipe){
         if(err){
             console.log(err);
@@ -205,7 +209,6 @@ app.get("/register", function(req, res){
 //handle signup logic
 app.post("/register", function(req, res){
     var newUser = { username: req.body.username};
-    console.log(newUser);
     User.register(new User(newUser), req.body.password, function(err, user){
         if(err){
             console.log(err);
@@ -241,6 +244,25 @@ function isLoggedIn(req, res, next){
         return next();
     }
     res.redirect("/login");
+}
+
+//Recipe Ownership middleware
+function checkRecipeOwnership(req, res, next){
+    if(req.isAuthenticated()){
+        Recipe.findById(req.params.id, function(err, foundRecipe){
+            if(err){
+                res.redirect("back");
+            }else{
+                if(foundRecipe.user.id.equals(req.user._id)){
+                    next();
+                }else{
+                    res.redirect("/login");
+                }
+            }
+        });
+    }else{
+        res.redirect("back");
+    }
 }
 
 //==================================

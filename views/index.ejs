@@ -11,7 +11,8 @@
     <br>
 
     <div class="row text-center" style="display:flex; flex-wrap: wrap;">
-        <% recipes.forEach(function(recipe){ %>    
+        <% recipes.forEach(function(recipe){ %>
+            <% if(currentUser && recipe.user.id.equals(currentUser._id)){ %>    
             <div class="col-md-3 col-sm-6">
                 <div class="thumbnail">
                     <img src="/uploads/<%= recipe.image %>" alt="">
@@ -20,6 +21,7 @@
                     </div>
                 </div>
             </div>
+           <% } %>
         <% }); %>
     </div>    
 </div>
