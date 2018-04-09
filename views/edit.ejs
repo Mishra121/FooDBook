@@ -4,7 +4,7 @@
         <div class="row">
             <h1 class="text-center">Edit <%= recipe.title %></h1>
             <hr>
-            <div style="width: 37%; margin: 0 auto;">
+            <div class="editpage">
                 <form action="/recipes/<%= recipe.id %>?_method=PUT" method="POST" enctype='multipart/form-data'>
                     <div class="form-group">
                         <label>Name:</label>

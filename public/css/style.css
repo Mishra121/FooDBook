@@ -19,9 +19,20 @@
     display: inline;
 }
 
+.editpage, .login, .new-form, .register{
+    width: 37%; 
+    margin: 0 auto;
+}
 
+.ingnew{
+    margin:0 auto; 
+    max-width:330px;
+}
 
 
 @media (max-width: 540px) {
-    
+    .editpage, .ingnew, .login, .new-form, .register{
+        width: 85%; 
+        margin: 0 auto;
+    }        
 }
