@@ -216,11 +216,13 @@ app.post("/register", function(req, res){
     User.register(new User(newUser), req.body.password, function(err, user){
         if(err){
             req.flash("error", err.message);
-            return res.render("register");
+            res.redirect("/register");
         }
-        passport.authenticate("local")(req, res, function(){
-            res.redirect("/recipes");
-        });
+        else{
+            passport.authenticate("local")(req, res, function(){
+                res.redirect("/recipes");
+            });
+        }
     })
 });
 
@@ -232,7 +234,8 @@ app.get("/login", function(req, res){
 //login route
 app.post("/login", passport.authenticate("local", {
     successRedirect: "/recipes",
-    failureRedirect: "/login"
+    failureRedirect: "/login",
+    failureFlash : true
 }), function(req, res){
 });
 
