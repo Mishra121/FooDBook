@@ -12,7 +12,7 @@ var methodOverride = require("method-override");
 
 var app = express();
 
-mongoose.connect("mongodb://localhost/reciepedb");
+mongoose.connect("mongodb://vibhu:password@ds249128.mlab.com:49128/recipedb");
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.set("view engine", "ejs");
@@ -58,10 +58,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage: storage,
-    limits: {fileSize: 1000000},
-    fileFilter: function(req, file, cb){
-        checkFileType(file, cb);
-    }
+    limits: {fileSize: 1000000}
 }).single('image');
 
 
@@ -166,6 +163,7 @@ app.delete("/recipes/:id", checkRecipeOwnership, function(req, res){
     Recipe.findById(req.params.id, function(err, recipe){
         if(err){
             console.log(err);
+            res.redirect('/recipes');
         }else{
             fullpath = __dirname + '/public/uploads/' + recipe.image; 
             fs.unlink(fullpath, function(err){
