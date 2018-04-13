@@ -42,6 +42,8 @@ passport.deserializeUser(User.deserializeUser());
 // Middleware formed to pass user on all the routes
 app.use(function(req, res, next){
     res.locals.currentUser = req.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
     next();
 });
 
@@ -213,7 +215,7 @@ app.post("/register", function(req, res){
     var newUser = { username: req.body.username};
     User.register(new User(newUser), req.body.password, function(err, user){
         if(err){
-            console.log(err);
+            req.flash("error", err.message);
             return res.render("register");
         }
         passport.authenticate("local")(req, res, function(){
@@ -224,7 +226,7 @@ app.post("/register", function(req, res){
 
 // show login form
 app.get("/login", function(req, res){
-    res.render('login', {message: req.flash("error")});
+    res.render('login');
 });
 
 //login route
@@ -237,6 +239,7 @@ app.post("/login", passport.authenticate("local", {
 // logout route
 app.get("/logout", function(req, res){
     req.logout();
+    req.flash("success", "Logged you out !");
     res.redirect('/');
 });
 
@@ -259,11 +262,13 @@ function checkRecipeOwnership(req, res, next){
                 if(foundRecipe.user.id.equals(req.user._id)){
                     next();
                 }else{
+                    req.flash("error", "You Don't have permission to do that.")
                     res.redirect("/login");
                 }
             }
         });
     }else{
+        req.flash("error", "You need to be logged in to do that");
         res.redirect("back");
     }
 }
