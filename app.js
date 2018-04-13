@@ -2,6 +2,7 @@ var express = require('express');
 var ejs = require('ejs');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var flash = require('connect-flash');
 var passport = require("passport");
 var LocalStrategy = require("passport-local");
 var multer = require('multer');
@@ -16,6 +17,7 @@ app.use(bodyParser.json());
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
+app.use(flash());
 
 var ingredientSchema = require('./models/ingredient');
 var Recipe = require('./models/recipe');
@@ -222,7 +224,7 @@ app.post("/register", function(req, res){
 
 // show login form
 app.get("/login", function(req, res){
-    res.render('login');
+    res.render('login', {message: req.flash("error")});
 });
 
 //login route
@@ -243,6 +245,7 @@ function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
         return next();
     }
+    req.flash("error", "Please Login First!");
     res.redirect("/login");
 }
 
