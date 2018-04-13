@@ -58,7 +58,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage: storage,
-    limits: {fileSize: 1000000}
+    limits: {fileSize: 1000000},
+    fileFilter: function(req, file, cb){
+        checkFileType(file, cb);
+    }
 }).single('image');
 
 
@@ -90,7 +93,7 @@ app.get("/recipes/new",isLoggedIn ,function(req, res){
 app.post("/recipes", isLoggedIn, function(req, res){
     upload(req, res, (err) => {
         if(err){
-            console.log('image not uploaded');
+            res.redirect('back');
         }else{
             var title = req.body.title;
             var description = req.body.description;  
