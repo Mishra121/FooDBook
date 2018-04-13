@@ -276,6 +276,11 @@ function checkRecipeOwnership(req, res, next){
     }
 }
 
+// 404 Route
+app.get('*', function(req, res){
+    res.render('404not');
+});
+
 //==================================
 var port = process.env.PORT || 3000;
 app.listen(port, function(){
