@@ -1,6 +1,7 @@
 var express = require('express');
 var ejs = require('ejs');
 var mongoose = require('mongoose');
+var fs = require('fs');
 var bodyParser = require('body-parser');
 var flash = require('connect-flash');
 var passport = require("passport");
@@ -159,6 +160,19 @@ app.put("/recipes/:id", checkRecipeOwnership, function(req, res){
 
 //DELETE RECIPE
 app.delete("/recipes/:id", checkRecipeOwnership, function(req, res){
+    Recipe.findById(req.params.id, function(err, recipe){
+        if(err){
+            console.log(err);
+        }else{
+            fullpath = __dirname + '/public/uploads/' + recipe.image; 
+            fs.unlink(fullpath, function(err){
+                if(err){
+                    console.log(err);
+                }
+            });
+        }
+    });
+
     Recipe.findByIdAndRemove(req.params.id, function(err){
         if(err){
             res.redirect('/recipes');
