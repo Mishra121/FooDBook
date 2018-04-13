@@ -3,9 +3,9 @@
     
     <div  class="ingnew container text-center">
         <h4>Add Ingredients for <%= recipe.title %></h4>
-        <form action="/recipes/<%= recipe._id %>/ingredients" method="POST">
+        <form name="myForm" action="/recipes/<%= recipe._id %>/ingredients" method="POST" onsubmit="return validateForm(event)">
             <div id="addmore" class="form-group">
-                <input type="text" name="text" class="form-control">
+                <input id="ingid" type="text" name="text" class="form-control">
                 <br>
             </div>
             <div class="form-group">
@@ -15,7 +15,8 @@
             <div class="form-group">
                 <button class="btn btn-primary form-control" type="submit">Submit Ingredients</button>
             </div>
-        </form>        
+        </form>
+        <p id="error" style="color:firebrick;"></p>        
     </div>
     
     <script>
@@ -23,11 +24,20 @@
             var newinput = document.createElement("INPUT");
             newinput.setAttribute("type", "text");
             newinput.setAttribute("name", "text");
+            newinput.setAttribute("id", "ingid");
             newinput.setAttribute("class", "form-control");
             var parent = document.getElementById("addmore");
             parent.appendChild(newinput);
             var newbr = document.createElement("br");
             parent.appendChild(newbr);
-         }
+        }
+        
+        function validateForm(event) {
+            var x = document.getElementById("ingid").value;
+            if (x == "") {
+                document.getElementById("error").innerHTML = "Please give ingredients name !";
+                event.preventDefault();
+            }
+        }
     </script>
 <% include ./partials/footer %>

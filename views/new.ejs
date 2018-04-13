@@ -8,20 +8,24 @@
                 <form action="/recipes" method="POST" enctype='multipart/form-data'>
                     <div class="form-group">
                         <label>Name:</label>
-                        <input type="text" class="form-control" name="title" placeholder="title">
+                        <input type="text" class="form-control" name="title" placeholder="title" required>
                     </div>
                     <div class="form-group">
                         <label>Description:</label>
-                        <textarea class="form-control" name="description" cols="25" rows="8" placeholder="description..."></textarea>
+                        <textarea class="form-control" name="description" cols="25" rows="8" placeholder="description..." required></textarea>
                     </div>
                     <div class="form-group">
                         <label>Image:</label>
-                        <input class="form-control" type="file" name="image">
+                        <input class="form-control" type="file" name="image" required>
                     </div>
                     <button class="btn btn-lg btn-block btn-primary" type="submit">Submit <i class="glyphicon glyphicon-saved"></i></button>
                 </form>
             </div>
         </div>
     </div>
+
+<script>
+    
+</script>
 
 <% include ./partials/footer %>
